@@ -27,6 +27,14 @@ const genres = [
   { id: 17, genre: "Speculative" }
 ]
 
+//validation
+const validateGenre = genre => {
+  const schema = {
+    name: Joi.string().required()
+  }
+  return Joi.validate(genre, schema)
+}
+
 //home
 app.get('/', (req,res) => {
   res.send('Welcome to Vidley')
@@ -35,6 +43,27 @@ app.get('/', (req,res) => {
 // get list of genres
 app.get(url, (req,res) => {
   res.send(genres)
+})
+
+// get a specific genre
+app.get(`${url}/:id`, (req,res) => {
+  const genre = genres.find(g => g.id === parseInt(req.params.id))
+  if(!genre) return res.status(404).send('Genre not found')
+  res.send(genre);
+})
+
+//Implement CRUD through RESTful convention.
+
+//CREATE
+app.post(url, (req,res) => {
+  const { error } = validateGenre(req.body)
+  if(error) return res.status(400).send(error.details[0].message)
+  const genre = {
+    id: genres.length + 1,
+    name: req.body.name
+  }
+  genres.push(genre)
+  res.send(genre)
 })
 
 app.listen(port, () => console.log(`Listening on Port ${port}`))
