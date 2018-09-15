@@ -28,7 +28,7 @@ const genres = [
 ]
 
 //validation
-const validateGenre = genre => {
+const validateGenre = (genre) => {
   const schema = {
     name: Joi.string().required()
   }
@@ -38,18 +38,6 @@ const validateGenre = genre => {
 //home
 app.get('/', (req,res) => {
   res.send('Welcome to Vidley')
-})
-
-// get list of genres
-app.get(url, (req,res) => {
-  res.send(genres)
-})
-
-// get a specific genre
-app.get(`${url}/:id`, (req,res) => {
-  const genre = genres.find(g => g.id === parseInt(req.params.id))
-  if(!genre) return res.status(404).send('Genre not found')
-  res.send(genre);
 })
 
 //Implement CRUD through RESTful convention.
@@ -63,6 +51,27 @@ app.post(url, (req,res) => {
     name: req.body.name
   }
   genres.push(genre)
+  res.send(genre)
+})
+
+//READ
+app.get(url, (req,res) => {
+  res.send(genres)
+})
+
+app.get(`${url}/:id`, (req,res) => {
+  const genre = genres.find(g => g.id === parseInt(req.params.id))
+  if(!genre) return res.status(404).send('Genre not found')
+  res.send(genre);
+})
+
+//Update
+app.put(`${url}/:id`, (req,res) => {
+  const genre = genres.find(g => g.id === parseInt(req.params.id))
+  if(!genre) return res.status(404).send('Genre not found')
+  const { error } = validateGenre(req.body)
+  if(error) return res.status(400).send(error.details[0].message)
+  genre.name = req.body.name
   res.send(genre)
 })
 
