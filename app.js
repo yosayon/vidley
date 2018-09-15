@@ -2,7 +2,10 @@ const Joi = require('joi');
 const express = require('express');
 const app = express();
 
-app.use(express.json());
+const url = '/api/genres'
+const port = process.env.PORT || 3000
+
+app.use(express.json())
 
 const genres = [
   { id: 1, genre: "Horror" },
@@ -23,3 +26,15 @@ const genres = [
   { id: 16, genre: "Urban" },
   { id: 17, genre: "Speculative" }
 ]
+
+//home
+app.get('/', (req,res) => {
+  res.send('Welcome to Vidley')
+})
+
+// get list of genres
+app.get(url, (req,res) => {
+  res.send(genres)
+})
+
+app.listen(port, () => console.log(`Listening on Port ${port}`))
