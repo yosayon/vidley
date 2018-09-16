@@ -28,11 +28,16 @@ const genres = [
 ]
 
 //validation
-const validateGenre = (genre) => {
+const validateGenre = genre => {
   const schema = {
     name: Joi.string().required()
   }
   return Joi.validate(genre, schema)
+}
+
+//validation function for uniqueness of genre name
+const isGenreUnique = genre => {
+  return genres.map(g => g.name === genre.name ? false : true
 }
 
 //home
@@ -71,13 +76,9 @@ app.put(`${url}/:id`, (req,res) => {
   if(!genre) return res.status(404).send('Genre not found')
   const { error } = validateGenre(req.body)
   if(error) return res.status(400).send(error.details[0].message)
-  const isUnique = genres.map(g => g.name === genre.name ? false : true)
-  if(isUnique){
-    genre.name = req.body.name
-    res.send(genre)
-  } else {
-    res.status(400).send('This genre already exists') 
-  }
+  if(!isGenreUnique) return res.status(400).send('This genre already exists!')
+  genre.name = req.body.name
+  res.send(genre)
 })
 
 app.listen(port, () => console.log(`Listening on Port ${port}`))
