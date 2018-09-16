@@ -50,7 +50,9 @@ app.get('/', (req,res) => {
 //CREATE
 app.post(url, (req,res) => {
   const { error } = validateGenre(req.body)
+  const isUnique = isGenreUnique(req.body)
   if(error) return res.status(400).send(error.details[0].message)
+  if(!isUnique) return res.status(404).send('Genre already exists')
   const genre = {
     id: genres.length + 1,
     name: req.body.name
@@ -73,10 +75,11 @@ app.get(`${url}/:id`, (req,res) => {
 //Update
 app.put(`${url}/:id`, (req,res) => {
   const genre = genres.find(g => g.id === parseInt(req.params.id))
+  const isUnique = isGenreUnique(req.body)
   if(!genre) return res.status(404).send('Genre not found')
   const { error } = validateGenre(req.body)
   if(error) return res.status(400).send(error.details[0].message)
-  if(!isGenreUnique) return res.status(400).send('This genre already exists!')
+  if(!isUnique) return res.status(400).send('Genre already exists')
   genre.name = req.body.name
   res.send(genre)
 })
