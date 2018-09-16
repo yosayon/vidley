@@ -41,10 +41,6 @@ const findGenre = id => {
   const genre = genres.find(g => g.id === id)
   return !genre ? false : genre
 }
-//home
-router.get('/', (req,res) => {
-  res.send('Welcome to Vidley')
-})
 
 //Implement CRUD through RESTful convention.
 
