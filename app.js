@@ -27,7 +27,8 @@ const genres = [
   { id: 17, genre: "Speculative" }
 ]
 
-//validation
+//--------------------------------------> validations
+//validate that a genre name was given
 const validateGenre = genre => {
   const schema = {
     name: Joi.string().required()
@@ -40,6 +41,11 @@ const isGenreUnique = genre => {
   return genres.map(g => g.name === genre.name ? false : true
 }
 
+//validate that the genre exists in the 'db'
+const findGenre = id => {
+  const genre = genres.find(g => g.id === id)
+  return !genre ? false : genre
+}
 //home
 app.get('/', (req,res) => {
   res.send('Welcome to Vidley')
@@ -67,14 +73,14 @@ app.get(url, (req,res) => {
 })
 
 app.get(`${url}/:id`, (req,res) => {
-  const genre = genres.find(g => g.id === parseInt(req.params.id))
+  const genre = findGenre(parseInt(req.params.id)))
   if(!genre) return res.status(404).send('Genre not found')
   res.send(genre);
 })
 
 //Update
 app.put(`${url}/:id`, (req,res) => {
-  const genre = genres.find(g => g.id === parseInt(req.params.id))
+  const genre = findGenre(parseInt(req.params.id)))
   const isUnique = isGenreUnique(req.body)
   if(!genre) return res.status(404).send('Genre not found')
   const { error } = validateGenre(req.body)
@@ -84,8 +90,9 @@ app.put(`${url}/:id`, (req,res) => {
   res.send(genre)
 })
 
+//Delete
 app.delete(`${url}/:id`, (req,res) => {
-  const genre = genres.find(g => g.id === parseInt(req.params.id))
+  const genre = findGenre(parseInt(req.params.id)))
   if(!genre) return res.status(404).send('Genre not found')
   const index = genres.indexOf(genre)
   genres.splice(index, 1)
