@@ -84,4 +84,12 @@ app.put(`${url}/:id`, (req,res) => {
   res.send(genre)
 })
 
+app.delete(`${url}/:id`, (req,res) => {
+  const genre = genres.find(g => g.id === parseInt(req.params.id))
+  if(!genre) return res.status(404).send('Genre not found')
+  const index = genres.indexOf(genre)
+  genres.splice(index, 1)
+  res.send(genre)
+})
+
 app.listen(port, () => console.log(`Listening on Port ${port}`))
