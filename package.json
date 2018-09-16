@@ -24,6 +24,7 @@
     "joi": "^13.6.0",
     "mongoose": "^5.2.15",
     "morgan": "^1.9.1",
+    "pug": "^2.0.3",
     "underscore": "^1.9.1"
   },
   "devDependencies": {
