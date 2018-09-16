@@ -17,9 +17,13 @@
   },
   "homepage": "https://github.com/yosayon/vidley#readme",
   "dependencies": {
+    "config": "^2.0.1",
+    "debug": "^4.0.1",
     "express": "^4.16.3",
+    "helmet": "^3.13.0",
     "joi": "^13.6.0",
     "mongoose": "^5.2.15",
+    "morgan": "^1.9.1",
     "underscore": "^1.9.1"
   },
   "devDependencies": {
