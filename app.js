@@ -6,6 +6,11 @@ const morgan = require('morgan')
 const debug = require('debug')('app:startup')
 const config = require('config')
 const helmet = require('helmet')
+const mongoose = require('mongoose')
+
+mongoose.connect('mongodb://localhost/vidley', { useNewUrlParser: true })
+  .then(() => console.log('You are now connected to the vidley database...'))
+  .catch(err => console.log('Unable to connect to the vidley database', err))
 
 
 app.use(express.json())
