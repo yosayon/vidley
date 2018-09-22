@@ -55,7 +55,7 @@ function validateGenre(genre) {
 }
 
 async function createGenre(){
-  
+
 }
 
-module.exports = router;
+module.exports = router
