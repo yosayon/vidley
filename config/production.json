@@ -1,7 +1,0 @@
-{
-  "name": "Vidley",
-  "mail": {
-    "host": "prod-mail-server",
-    "password": "vidley_password"
-    }
-}
